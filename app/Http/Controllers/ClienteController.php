@@ -14,17 +14,18 @@ class ClienteController extends Controller
      }
 
      public function store(Request $request) {
-        $cliente = Cliente::create([
-            'nome' => $request->nome,
-            'cpf' => $request->cpf,
-            'idade' => $request->idade,
-        ]);
-        if (Cliente::where('cpf', $request->cpf)->exists()) {
-            return response()->json(['erro' => 'CPF já cadastrado'], 400);
-        }
-        return response()->json($cliente);
-     }
+                 if (Cliente::where('cpf', $request->cpf)->exists()) {
+             return response()->json(['erro' => 'CPF já cadastrado'], 400);
+         }
 
+         $cliente = Cliente::create([
+             'nome' => $request->nome,
+             'cpf' => $request->cpf,
+             'idade' => $request->idade,
+         ]);
+
+         return response()->json($cliente, 201);
+     }
      public function update(Request $request) {
          //buscar a tarefa pelo id
             $cliente = Cliente::find($request->id);
