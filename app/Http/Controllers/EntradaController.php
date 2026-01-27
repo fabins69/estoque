@@ -18,26 +18,45 @@ class EntradaController extends Controller
      }
 
    public function store(Request $request) {
-        $entrada = Entrada::create([
-            'id_produto' => $request->id_produto,
-            'quantidade' => $request->quantidade,
-        ]);
+       
+    
+      $produto = Produto::find($request->id_produto);
+       
+      if($produto == null){
+        return response()->json(['erro' => 'Tarefa nao encontrada']);
+      }
+      $entrada = Entrada::create([
+        'id_produto' => $request->id_produto,
+        'quantidade' => $request->quantidade,
 
-        return response()->json($entrada);
+
+      ]);
+
+      if(isset($request->quantidade)){
+        $produto->quantidade_estoque = $request->quantidade + $produto-> quantidade_estoque;
+      }
+
+     
+      
+      $produto->update();
+
+      return response()->json($entrada);
     }
-
       
 
      public function delete($id){
-         $entrada = Entrada::find($id);
+
+       
+        $entrada = Entrada::find($id);
 
         if ($entrada == null) {
             return response()->json(['erro' => 'Tarefa não encontrada']);
         }
-
+        $entrada->quantidade_estoque = $entrada->quantidade_estoque - $entrada->quantidade_estoque;
         $entrada->delete();
 
         return response()->json(['mensagem' => 'Tarefa deletada com sucesso']);
     
      }
-};
+
+   };

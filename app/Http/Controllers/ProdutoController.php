@@ -22,7 +22,8 @@ class ProdutoController extends Controller
             'faixa_etaria_minima' => $request->faixa_etaria_minima
 
         ]);
-        return response()->json($produto);
+        return response()->json($produto);  
+        
      }
 
      public function update(Request $request) {
