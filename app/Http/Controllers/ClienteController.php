@@ -15,7 +15,7 @@ class ClienteController extends Controller
 
      public function store(Request $request) {
                  if (Cliente::where('cpf', $request->cpf)->exists()) {
-             return response()->json(['erro' => 'CPF já cadastrado'], 400);
+             return response()->json(['erro' => 'CPF já cadastrado']);
          }
 
          $cliente = Cliente::create([
@@ -27,15 +27,15 @@ class ClienteController extends Controller
          return response()->json($cliente, 201);
      }
      public function update(Request $request) {
-         //buscar a tarefa pelo id
+       
             $cliente = Cliente::find($request->id);
 
-            //verificar se encontrou a tarefa
+          
             if ($cliente == null) {
                 return response()->json(['erro' => 'Tarefa não encontrada']);
             }
             
-            //verificar se o campo existe na request
+           
             if(isset($request->nome)){
                 $cliente->nome = $request->nome;
             }
@@ -44,24 +44,24 @@ class ClienteController extends Controller
             }
             if(isset($request->idade)){
                 $cliente->idade = $request->idade;
-            //atualizar os dados da tarefa
+           
             $cliente->update();
             
-            //retornar a tarefa atualizada
+           
             return response()->json(['mensagem' => 'atualizada']);
      }
     }
 
              public function delete($id){
-        //pesquisar a tarefa pelo id
+        
         $cliente = Cliente::find($id);
-        //verificar se encontrou a tarefa
+        
         if ($cliente == null) {
             return response()->json(['erro' => 'Tarefa não encontrada']);
         }
-        //deletar a tarefa
+       
         $cliente->delete();
-        //retornar a mensagem de sucesso
+        
         return response()->json(['mensagem' => 'Tarefa deletada com sucesso']);
     
      }

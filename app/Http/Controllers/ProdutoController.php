@@ -22,18 +22,19 @@ class ProdutoController extends Controller
             'faixa_etaria_minima' => $request->faixa_etaria_minima
 
         ]);
+        return response()->json($produto);
      }
 
      public function update(Request $request) {
-         //buscar a tarefa pelo id
+       
             $produto = Produto::find($request->id);
 
-            //verificar se encontrou a tarefa
+            
             if ($produto == null) {
                 return response()->json(['erro' => 'Tarefa não encontrada']);
             }
             
-            //verificar se o campo existe na request
+        
             if(isset($request->marca)){
                 $produto->marca = $request->marca;
             }
@@ -51,25 +52,25 @@ class ProdutoController extends Controller
             }
 
 
-            //atualizar os dados da tarefa
+            
             $produto->update();
             
-            //retornar a tarefa atualizada
+         
             return response()->json(['mensagem' => 'atualizada']);
      }
 
     
 
      public function delete($id){
-        //pesquisar a tarefa pelo id
+
         $produto = Produto::find($id);
-        //verificar se encontrou a tarefa
+
         if ($produto == null) {
             return response()->json(['erro' => 'Tarefa não encontrada']);
         }
-        //deletar a tarefa
+
         $produto->delete();
-        //retornar a mensagem de sucesso
+
         return response()->json(['mensagem' => 'Tarefa deletada com sucesso']);
     
      }
