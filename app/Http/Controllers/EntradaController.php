@@ -52,7 +52,16 @@ class EntradaController extends Controller
         if ($entrada == null) {
             return response()->json(['erro' => 'Tarefa não encontrada']);
         }
-        $entrada->quantidade_estoque = $entrada->quantidade_estoque - $entrada->quantidade_estoque;
+
+        $produto = Produto::find($entrada->id_produto);
+
+        if ($produto == null) {
+            return response()->json(['erro' => 'Produto não encontrado']);
+        }   
+
+        $produto->quantidade_estoque = $produto->quantidade_estoque - $entrada->quantidade;
+        $produto->update();
+
         $entrada->delete();
 
         return response()->json(['mensagem' => 'Tarefa deletada com sucesso']);
